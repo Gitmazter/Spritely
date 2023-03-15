@@ -16,6 +16,7 @@ export const Editor = () => {
     const pixelMap = CreatePixelMap(size);
 
     const filledPixelMap = FillPixelMap(pixelMap, size);
+    /* const [pixels, setPixels] = useState[filledPixelMap(pixelMap, size)]; */
 
     const [color, setColor] = useState("#aabbcc");
 
