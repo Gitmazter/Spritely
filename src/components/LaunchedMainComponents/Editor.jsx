@@ -47,7 +47,7 @@ export const Editor = () => {
             {pixelMap.map((row, rowIndex) => (
                 <div style={{display: "flex", flexDirection: "column"}} key={rowIndex}>
                 {row.map((pixel, columnIndex) => (
-                    <Pixel color={color} />
+                    <Pixel color={color} key={`${rowIndex} - ${columnIndex}`} />
                 ))}
                 </div>
             ))}
