@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { HexColorPicker } from "react-colorful";
-import { Pixel } from "./EditorComponents/Pixel";
+import { Pixel } from "./Pixel";
 
 export const Editor = () => {
 
@@ -28,7 +28,6 @@ export const Editor = () => {
     function erase () {
         setColor("#FFFFFF");
     }
-
 
     function handleColorChange (e) {
         console.log(e);
