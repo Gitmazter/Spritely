@@ -1,11 +1,12 @@
 // Logo, wallet connect, start app
+import { handleHeaderClick } from "./HeaderComponents/HandleHeaderClick"
 
 export const Header = () => {
     return (
         <header className="header">
-            header works
-            <img src="logo here" alt="" className="logo" id="headerLogo"></img>
-            <button>
+            <img src="logo192.png" alt="" id="headerLogo"></img>
+            <h3>Spritely.io</h3>
+            <button className="ixBtn" onClick={handleHeaderClick}>
                 // button for launching app and connecting to wallet
             </button>
         </header>

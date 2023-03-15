@@ -1,0 +1,1 @@
+// Big motivational heroImg

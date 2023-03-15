@@ -1,11 +1,13 @@
+import { Editor } from "./LaunchedMainComponents/Editor"
+import { Title } from "./LaunchedMainComponents/Title";
+
 // show about info, display app when launch app button in header clicked
 export const Main = () => {
     return (
         <main className="main">
-            {/* title */}
-            {/* Design Application */}
+            <Title />
+            <Editor />
             {/* Guide */}
-            main works
         </main>
     )
 }

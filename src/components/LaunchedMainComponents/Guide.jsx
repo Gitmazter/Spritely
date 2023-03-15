@@ -1,0 +1,1 @@
+// List steps needed to design and mind your NFT

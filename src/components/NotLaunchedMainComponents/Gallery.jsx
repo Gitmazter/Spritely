@@ -1,0 +1,1 @@
+// Query SC for 4-6 latest mints and display in browser

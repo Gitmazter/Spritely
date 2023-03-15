@@ -12,6 +12,8 @@ Day5 Presentation Planning, fine adjustments / DEMO 14:30
 
 Name: Spritely NFT?
 
+
+
 Brainstorming
 
 Design 32x32 Pixelart NFT and mint
