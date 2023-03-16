@@ -1,16 +1,17 @@
 import { useState } from "react"
 
-export const Pixel = (color2) => {
+export const Pixel = (props) => {
 
     const [color, setColor] = useState("#FFFFFF");
     
     function handleClick () {
-        setColor(color2.color);
+        setColor(props.color);
+        props.onClick();
     }
 
     return (
         <>
-            <div style={{backgroundColor:color}} className="pixel" onClick={handleClick} />
+            <div style={{backgroundColor:color}} className="pixel" onClick={handleClick} id={`${props.rowIndex} - ${props.columnIndex}`}/>
         </>
     )
 }
