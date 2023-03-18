@@ -1,4 +1,5 @@
 import { Editor } from "./LaunchedMainComponents/Editor"
+import FileUpload from "./LaunchedMainComponents/EditorComponents/Storer";
 import { Title } from "./LaunchedMainComponents/Title";
 import useGetPhantomContext from "./LaunchedMainComponents/useGetPhantomContext";
 

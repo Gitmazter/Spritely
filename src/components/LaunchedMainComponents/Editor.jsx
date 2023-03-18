@@ -2,14 +2,28 @@ import { HexColorPicker } from "react-colorful";
 import { Pixel } from "./Pixel";
 import html2canvas from "html2canvas";
 import React, { useState } from "react";
-import { Store } from "./EditorComponents/Storer";
-import MintNoMeta from "./EditorComponents/MintNoMeta";
 import useGetPhantomContext from "./useGetPhantomContext";
+import { MintNoMeta } from "./EditorComponents/MintNoMeta";
+import FileUpload from "./EditorComponents/Storer";
+//import { Connection } from "@solana/web3.js";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { confirmTxn, Network, ShyftWallet } from '@shyft-to/js';
+import { Connection, Transaction } from "@solana/web3.js";
+import { Buffer } from "buffer";
 
 
 export const Editor = () => {
+    //var buffer = require('buffer-browserify')
+    const { publicKey, connect, signAndSendTransaction } = useGetPhantomContext();
+    const [color, setColor] = useState("#FFFFFF");
+    const nftRef = React.useRef();
+    const wallet = useGetPhantomContext();
+    const [nftTitle, setNftTitle] = useState("image");
+    const [nftDesc, setNftDesc] = useState("nodescription")
+    //const { connection } = useConnection();
+    
+    //const { signTransaction, signAllTransactions } = useWallet();
 
-    const { publicKey } = useGetPhantomContext();
 
     const [pixelMap, setPixelMap] = useState([
         ["#FFF", "#FFF", "#FFF","#FFF", "#FFF", "#FFF","#FFF", "#FFF", "#FFF","#FFF", "#FFF", "#FFF","#FFF", "#FFF", "#FFF","#FFF"],
@@ -30,20 +44,12 @@ export const Editor = () => {
         ["#FFF", "#FFF", "#FFF","#FFF", "#FFF", "#FFF","#FFF", "#FFF", "#FFF","#FFF", "#FFF", "#FFF","#FFF", "#FFF", "#FFF","#FFF"],
     ]);
 
-    const [color, setColor] = useState("#FFFFFF");
-
-    const nftRef = React.useRef();
-    const [nftTitle, setNftTitle] = useState("image");
-    const [nftDesc, setNftDesc] = useState("nodescription")
-
     function erase () {
         setColor("#FFFFFF");
     }
 
     function handleColorChange (e) {
-        console.log(e);
         setColor(e);
-
     }
 
     function onClick (pixelMap, rowIndex, columnIndex, color) {
@@ -63,7 +69,6 @@ export const Editor = () => {
         if (typeof link.download === 'string') {
           link.href = data;
           link.download = 'image.png';
-    
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
@@ -72,39 +77,36 @@ export const Editor = () => {
         }
     }
 
-
     function handleClear () {
         console.log("clear here");
     }
 
     async function clickMint () {
         const element = nftRef.current;
-        const canvas = await html2canvas(element);
+        const canvas = await html2canvas(element);    
+        const data = canvas.toDataURL('image/png', 1.0);
+        //var imgBuffer = Buffer.from(data, 'base64');
 
-        // Add input field for title
-        const data = canvas.toDataURL(`${nftTitle}.png`);
-        Store(data, nftTitle, nftDesc);
+        var blobBin = atob(data.split(',')[1]);
+        var array = [];
+        for(var i = 0; i < blobBin.length; i++) {
+        array.push(blobBin.charCodeAt(i));
+        }
+        var file=new Blob([new Uint8Array(array)], {type: 'image/png'});
+
+        const transactionJSON = await MintNoMeta(file, nftTitle, nftDesc, publicKey, wallet);
+        console.log(transactionJSON.result.encoded_transaction);
+        confirmTransactionFromFrontend( transactionJSON.result.encoded_transaction, signAndSendTransaction) 
+        
+
     }
-
-
-
-    async function clickMintNoMeta () {
-        const element = nftRef.current;
-        const canvas = await html2canvas(element);
-
-        // Add input field for title
-        const data = canvas.toDataURL('image/png');
-        MintNoMeta(canvas, nftTitle, nftDesc, publicKey);
-    }
-
 
     return (
         <div className="editor">  
-
             <div className="editorBtns">
                 <button className="editorBtn" onClick={handleClear}>Clear</button>
                 <button className="editorBtn" onClick={handleDownloadImage}>Download Design</button>
-                <button className="editorBtn" onClick={clickMintNoMeta}>Mint</button>
+                <button className="editorBtn" onClick={clickMint}>Mint</button>
             </div>
 
             <div className="pixelmap" ref={nftRef} style={{display:"flex", flexDirection:"row", height:"min-content"}}>
@@ -125,7 +127,34 @@ export const Editor = () => {
                 <br/>
                 <button onClick={erase}>Eraser</button>
             </div>
-            
         </div>
     )
 }
+
+async function confirmTransactionFromFrontend(encodedTransaction, wallet) {
+    const connection = new Connection('https://api.devnet.solana.com');
+    // console.log(encodedTransaction);
+    const recoveredTransaction = Transaction.from(
+        Buffer.from(encodedTransaction, 'base64')
+    );
+    const res = await wallet(recoveredTransaction);
+    console.log(res);
+    // const confirmTransaction = await connection.sendRawTransaction(
+    //   signedTx.serialize()
+    // );
+    return res;
+
+
+
+        // try {
+        //   const txnSignature = await confirmTxn(
+        //       connection,
+        //       encodedTransaction,
+        //       wallet
+        //     );
+        //   console.log(txnSignature);
+        // } catch (error) {
+        //   throw new Error(error);
+        // }
+      
+} 
