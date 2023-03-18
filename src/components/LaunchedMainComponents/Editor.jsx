@@ -2,9 +2,14 @@ import { HexColorPicker } from "react-colorful";
 import { Pixel } from "./Pixel";
 import html2canvas from "html2canvas";
 import React, { useState } from "react";
+import { Store } from "./EditorComponents/Storer";
+import MintNoMeta from "./EditorComponents/MintNoMeta";
+import useGetPhantomContext from "./useGetPhantomContext";
 
 
 export const Editor = () => {
+
+    const { publicKey } = useGetPhantomContext();
 
     const [pixelMap, setPixelMap] = useState([
         ["#FFF", "#FFF", "#FFF","#FFF", "#FFF", "#FFF","#FFF", "#FFF", "#FFF","#FFF", "#FFF", "#FFF","#FFF", "#FFF", "#FFF","#FFF"],
@@ -29,6 +34,7 @@ export const Editor = () => {
 
     const nftRef = React.useRef();
     const [nftTitle, setNftTitle] = useState("image");
+    const [nftDesc, setNftDesc] = useState("nodescription")
 
     function erase () {
         setColor("#FFFFFF");
@@ -56,7 +62,7 @@ export const Editor = () => {
 
         if (typeof link.download === 'string') {
           link.href = data;
-          link.download = 'image.jpg';
+          link.download = 'image.png';
     
           document.body.appendChild(link);
           link.click();
@@ -71,9 +77,26 @@ export const Editor = () => {
         console.log("clear here");
     }
 
-    function clickMint () {
-        console.log("Mint here");
+    async function clickMint () {
+        const element = nftRef.current;
+        const canvas = await html2canvas(element);
+
+        // Add input field for title
+        const data = canvas.toDataURL(`${nftTitle}.png`);
+        Store(data, nftTitle, nftDesc);
     }
+
+
+
+    async function clickMintNoMeta () {
+        const element = nftRef.current;
+        const canvas = await html2canvas(element);
+
+        // Add input field for title
+        const data = canvas.toDataURL('image/png');
+        MintNoMeta(canvas, nftTitle, nftDesc, publicKey);
+    }
+
 
     return (
         <div className="editor">  
@@ -81,7 +104,7 @@ export const Editor = () => {
             <div className="editorBtns">
                 <button className="editorBtn" onClick={handleClear}>Clear</button>
                 <button className="editorBtn" onClick={handleDownloadImage}>Download Design</button>
-                <button className="editorBtn" onClick={clickMint}>Mint</button>
+                <button className="editorBtn" onClick={clickMintNoMeta}>Mint</button>
             </div>
 
             <div className="pixelmap" ref={nftRef} style={{display:"flex", flexDirection:"row", height:"min-content"}}>

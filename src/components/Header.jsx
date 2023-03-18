@@ -1,5 +1,4 @@
 // Logo, wallet connect, start app
-import { handleHeaderClick } from "./HeaderComponents/HandleHeaderClick"
 import useGetPhantomContext from "./LaunchedMainComponents/useGetPhantomContext";
 
 
