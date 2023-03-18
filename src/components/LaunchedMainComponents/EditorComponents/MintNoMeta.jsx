@@ -10,12 +10,8 @@ export async function MintNoMeta (imgUrl, title, description, address, wallet) {
     //myHeaders.append("Content-Type", "multipart/form-data");
     console.log(imgUrl);
 
-
-
-
-
     var formdata = new FormData();
-    formdata.append("network", "devnet");
+    formdata.append("network", "mainnet-beta");
     formdata.append("creator_wallet", address.toString());
     formdata.append("name", title);
     formdata.append("symbol", "SLY");

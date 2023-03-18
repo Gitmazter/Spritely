@@ -78,7 +78,17 @@ export const Editor = () => {
     }
 
     function handleClear () {
-        console.log("clear here");
+        console.log("clearing");
+        //const newPixelMap = pixelMap
+        //setPixelMap(newPixelMap);
+    }
+
+    function handleTitleChange (e) {
+        setNftTitle(e.target.value);
+    }
+
+    function handleDescChange (e) {
+        setNftDesc(e.target.value);
     }
 
     async function clickMint () {
@@ -97,13 +107,15 @@ export const Editor = () => {
         const transactionJSON = await MintNoMeta(file, nftTitle, nftDesc, publicKey, wallet);
         console.log(transactionJSON.result.encoded_transaction);
         confirmTransactionFromFrontend( transactionJSON.result.encoded_transaction, signAndSendTransaction) 
-        
-
     }
 
     return (
         <div className="editor">  
             <div className="editorBtns">
+                <input type="text" placeholder="title" onChange={handleTitleChange} />
+                <br/>
+                <br/>
+                <input type="text" placeholder="description" onChange={handleDescChange} />
                 <button className="editorBtn" onClick={handleClear}>Clear</button>
                 <button className="editorBtn" onClick={handleDownloadImage}>Download Design</button>
                 <button className="editorBtn" onClick={clickMint}>Mint</button>
@@ -125,14 +137,14 @@ export const Editor = () => {
                 }}>Select Color</p>
                 <HexColorPicker color={color} onChange={handleColorChange} />
                 <br/>
-                <button onClick={erase}>Eraser</button>
+                <button onClick={erase} className="editorBtn">Eraser</button>
             </div>
         </div>
     )
 }
 
 async function confirmTransactionFromFrontend(encodedTransaction, wallet) {
-    const connection = new Connection('https://api.devnet.solana.com');
+    const connection = new Connection('https://api.mainnet-beta.solana.com');
     // console.log(encodedTransaction);
     const recoveredTransaction = Transaction.from(
         Buffer.from(encodedTransaction, 'base64')
@@ -143,18 +155,5 @@ async function confirmTransactionFromFrontend(encodedTransaction, wallet) {
     //   signedTx.serialize()
     // );
     return res;
-
-
-
-        // try {
-        //   const txnSignature = await confirmTxn(
-        //       connection,
-        //       encodedTransaction,
-        //       wallet
-        //     );
-        //   console.log(txnSignature);
-        // } catch (error) {
-        //   throw new Error(error);
-        // }
       
 } 

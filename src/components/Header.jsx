@@ -16,8 +16,10 @@ export const Header = () => {
     
     return (
         <header className="header">
-            <img src="logo192.png" alt="" id="headerLogo"></img>
-            <h3>Spritely.fun</h3>
+            <div id="brandDiv">
+                <img src="favicon.png" alt="" id="headerLogo"></img>
+                <h3>Spritely</h3>
+            </div> 
             <button className="ixBtn" onClick={handleConnect}>
                 {connected ? publicKey.toString() : "Connect"}
             </button>
