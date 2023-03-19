@@ -20,7 +20,7 @@ export async function MintNoMeta (imgUrl, title, description, address, wallet) {
     formdata.append("max_supply", 0);
     formdata.append("royalty", 5);  
     formdata.append("image", imgUrl, 'hello');
-    formdata.append('service_charge', JSON.stringify({ "receiver": devPubKey,  "amount": 0.01}));
+    //formdata.append('service_charge', JSON.stringify({ "receiver": devPubKey,  "amount": 0.01}));
     
     var requestOptions = {
     method: 'POST',
