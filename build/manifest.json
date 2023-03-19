@@ -1,6 +1,6 @@
 {
   "short_name": "Spritely",
-  "name": "Create React App Sample",
+  "name": "Spritely dApp",
   "icons": [
     {
       "src": "favicon.ico",
@@ -18,7 +18,7 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": "https://gitmazter.github.io/Spritely/",
+  "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"

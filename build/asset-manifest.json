@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "https://gitmazter.github.io/spritely-deploy/static/css/main.cfed9fb9.css",
+    "main.js": "https://gitmazter.github.io/spritely-deploy/static/js/main.e6e2852d.js",
+    "static/js/787.8a7c67b4.chunk.js": "https://gitmazter.github.io/spritely-deploy/static/js/787.8a7c67b4.chunk.js",
+    "index.html": "https://gitmazter.github.io/spritely-deploy/index.html",
+    "main.cfed9fb9.css.map": "https://gitmazter.github.io/spritely-deploy/static/css/main.cfed9fb9.css.map",
+    "main.e6e2852d.js.map": "https://gitmazter.github.io/spritely-deploy/static/js/main.e6e2852d.js.map",
+    "787.8a7c67b4.chunk.js.map": "https://gitmazter.github.io/spritely-deploy/static/js/787.8a7c67b4.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.cfed9fb9.css",
+    "static/js/main.e6e2852d.js"
+  ]
+}
