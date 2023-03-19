@@ -14,7 +14,7 @@ import { Buffer } from "buffer";
 
 export const Editor = () => {
     //var buffer = require('buffer-browserify')
-    const { publicKey, connect, signAndSendTransaction } = useGetPhantomContext();
+    const { publicKey, connected, signAndSendTransaction, connect } = useGetPhantomContext();
     const [color, setColor] = useState("#FFFFFF");
     const nftRef = React.useRef();
     const wallet = useGetPhantomContext();
@@ -58,6 +58,9 @@ export const Editor = () => {
         setPixelMap(newPixelMap);
     }
 
+    function handleClear () {
+    }
+
     const handleDownloadImage = async () => {
         const element = nftRef.current;
         const canvas = await html2canvas(element);
@@ -77,12 +80,6 @@ export const Editor = () => {
         }
     }
 
-    function handleClear () {
-        console.log("clearing");
-        //const newPixelMap = pixelMap
-        //setPixelMap(newPixelMap);
-    }
-
     function handleTitleChange (e) {
         setNftTitle(e.target.value);
     }
@@ -95,7 +92,6 @@ export const Editor = () => {
         const element = nftRef.current;
         const canvas = await html2canvas(element);    
         const data = canvas.toDataURL('image/png', 1.0);
-        //var imgBuffer = Buffer.from(data, 'base64');
 
         var blobBin = atob(data.split(',')[1]);
         var array = [];
@@ -116,16 +112,16 @@ export const Editor = () => {
                 <br/>
                 <br/>
                 <input type="text" placeholder="description" onChange={handleDescChange} />
-                <button className="editorBtn" onClick={handleClear}>Clear</button>
+                <button className="editorBtn" onClick={() => {handleClear(pixelMap)}}>Clear</button>
                 <button className="editorBtn" onClick={handleDownloadImage}>Download Design</button>
-                <button className="editorBtn" onClick={clickMint}>Mint</button>
+                <button className="editorBtn" onClick={connected ? clickMint : connect}>Mint</button>
             </div>
 
             <div className="pixelmap" ref={nftRef} style={{display:"flex", flexDirection:"row", height:"min-content"}}>
                 {pixelMap.map((row, rowIndex) => (
                     <div style={{display: "flex", flexDirection: "column"}} key={rowIndex}>
                     {row.map((pixel, columnIndex) => (
-                        <Pixel color={color} rowIndex={rowIndex} columnIndex={columnIndex} onClick={() => onClick(pixelMap, rowIndex, columnIndex, color)}/>
+                        <Pixel className="pixel" color={color} rowIndex={rowIndex} columnIndex={columnIndex} onClick={() => onClick(pixelMap, rowIndex, columnIndex, color)}/>
                     ))}
                     </div>
                 ))}
@@ -157,3 +153,4 @@ async function confirmTransactionFromFrontend(encodedTransaction, wallet) {
     return res;
       
 } 
+

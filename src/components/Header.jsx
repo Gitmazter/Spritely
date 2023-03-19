@@ -1,8 +1,6 @@
 // Logo, wallet connect, start app
 import useGetPhantomContext from "./LaunchedMainComponents/useGetPhantomContext";
 
-
-
 export const Header = () => {
     const {connect, publicKey, connected, disconnect} = useGetPhantomContext();
 

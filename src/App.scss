@@ -117,8 +117,12 @@ body {
     margin: 5px;
   }
 }
+.react-colorful__pointer {
+  cursor: pointer;
+}
 
 .editorBtn {
+  cursor: pointer;
   background-color: wheat;
   color: black;
   font-family: monospace;
